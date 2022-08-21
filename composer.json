@@ -1,0 +1,21 @@
+{
+    "name": "moharrum/aramex-php",
+    "type": "library",
+    "require": {
+        "php": "^8.1",
+        "jbroadway/urlify": "1.2.4-stable"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Moharrum\\AramexPHP\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Khalid Moharrum",
+            "email": "khalid.moharram@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
