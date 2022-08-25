@@ -2,9 +2,9 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-use Moharrum\AramexPHP\Contracts\EntityContract;
+use Moharrum\AramexPHP\Entities\AbstractEntity;
 
-class Party implements EntityContract
+class Party extends AbstractEntity
 {
     /**
      * Any details the client would like to add
@@ -62,22 +62,10 @@ class Party implements EntityContract
     /**
      * Create a new instance of Party.
      *
-     * @param array|null $party
-     *
      * @return void
      */
-    public function __construct(?array $party)
+    public function __construct()
     {
-        if (is_array($party)) {
-            $this->reference1 = $party['reference1'];
-            $this->reference2 = $party['reference2'];
-            $this->accountNumber = $party['accountNumber'];
-            $this->partyAddress = new Address($party['partyAddress']);
-            $this->contact = new Contact($party['contact']);
-
-            return;
-        }
-
         $this->partyAddress = new Address();
         $this->contact = new Contact();
     }
@@ -96,125 +84,5 @@ class Party implements EntityContract
             'PartyAddress' => $this->partyAddress->build(),
             'Contact' => $this->contact->build(),
         ];
-    }
-
-    /**
-     * Set reference 1.
-     *
-     * @param string|null $reference1
-     *
-     * @return \Moharrum\AramexPHP\Entities\Party
-     */
-    public function setReference1(?string $reference1): self
-    {
-        $this->reference1 = $reference1;
-
-        return $this;
-    }
-
-    /**
-     * Get reference 1.
-     *
-     * @return string|null
-     */
-    public function getReference1(): ?string
-    {
-        return $this->reference1;
-    }
-
-    /**
-     * Set reference 2.
-     *
-     * @param string|null $reference2
-     *
-     * @return \Moharrum\AramexPHP\Entities\Party
-     */
-    public function setReference2(?string $reference2): self
-    {
-        $this->reference2 = $reference2;
-
-        return $this;
-    }
-
-    /**
-     * Get reference 2.
-     *
-     * @return string|null
-     */
-    public function getReference2(): ?string
-    {
-        return $this->reference2;
-    }
-
-    /**
-     * Set account number.
-     *
-     * @param string|null $accountNumber
-     *
-     * @return \Moharrum\AramexPHP\Entities\Party
-     */
-    public function setAccountNumber(?string $accountNumber): self
-    {
-        $this->accountNumber = $accountNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get account number.
-     *
-     * @return string|null
-     */
-    public function getAccountNumber(): ?string
-    {
-        return $this->accountNumber;
-    }
-
-    /**
-     * Set party address.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Address $partyAddress
-     *
-     * @return \Moharrum\AramexPHP\Entities\Party
-     */
-    public function setPartyAddress(Address $partyAddress): self
-    {
-        $this->partyAddress = $partyAddress;
-
-        return $this;
-    }
-
-    /**
-     * Get party address.
-     *
-     * @return \Moharrum\AramexPHP\Entities\Address
-     */
-    public function getPartyAddress(): Address
-    {
-        return $this->partyAddress;
-    }
-
-    /**
-     * Set contact.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Contact $contact
-     *
-     * @return \Moharrum\AramexPHP\Entities\Party
-     */
-    public function setContact(Contact $contact): self
-    {
-        $this->contact = $contact;
-
-        return $this;
-    }
-
-    /**
-     * Get contact.
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function getContact(): Contact
-    {
-        return $this->contact;
     }
 }

@@ -2,12 +2,14 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-class ShipmentItem
+use Moharrum\AramexPHP\Entities\AbstractEntity;
+
+class ShipmentItem extends AbstractEntity
 {
     /**
-     * Type of packaging, for example. Cans, bottles, degradable Plastic.
+     * Type of packaging, for example: cans, bottles, degradable plastic.
      *
-     * Conditional: If any of the Item element
+     * Conditional: If any of the item element
      * values are filled then the rest must be filled.
      *
      * Length: 50
@@ -17,9 +19,10 @@ class ShipmentItem
     public ?string $packageType = null;
 
     /**
-     * Total Weight of the Items.
+     * Total weight of the items.
      *
-     * Conditional
+     * Conditional: If any of the item element
+     * values are filled then the rest must be filled.
      *
      * @var \Moharrum\AramexPHP\Entities\Weight
      */
@@ -34,14 +37,15 @@ class ShipmentItem
      *
      * MAX = 100
      *
-     * @var int|null
+     * @var int
      */
-    public ?int $quantity = null;
+    public int $quantity = 0;
 
     /**
-     * Additional Comments or Information about the items.
+     * Additional comments or information about the items.
      *
-     * Conditional
+     * Conditional: If any of the item element
+     * values are filled then the rest must be filled.
      *
      * Length: 1000
      *
@@ -69,46 +73,18 @@ class ShipmentItem
     }
 
     /**
-     * Set item weight.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Weight|null $weight
-     *
-     * @return \Moharrum\AramexPHP\Entities\ShipmentItem
+     * @inheritdoc
      */
-    public function weight(?Weight $weight = null): self
-    {
-        if (!$weight) {
-            return $this->weight;
-        }
-
-        $this->weight = $weight;
-
-        return $this;
-    }
-
-    /**
-     * Returns an array representation of the model.
-     *
-     * @return array
-     */
-    public function toArray(): array
+    public function build(): array
     {
         return [
             'PackageType' => $this->packageType,
-            'Quantity' => (int) $this->quantity,
-            'Weight' => $this->weight->toArray(),
+            // @TODO
+            // 'Quantity' => (int) $this->quantity,
+            'Quantity' => $this->quantity,
+            'Weight' => $this->weight->build(),
             'Comments' => $this->comments,
             'Reference' => $this->reference,
         ];
-    }
-
-    /**
-     * Returns a JSON representation of the model.
-     *
-     * @return string
-     */
-    public function toJson(int $flags = 0, int $depth = 512): string
-    {
-        return json_encode($this->toArray(), $flags, $depth);
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-class Shipment
+use Moharrum\AramexPHP\Entities\AbstractEntity;
+
+class Shipment extends AbstractEntity
 {
     /**
      * Any general detail the customer would
@@ -57,7 +59,7 @@ class Shipment
      *
      * Optional
      *
-     * Type: 0, 1
+     * Allowed values: 0, 1
      *
      * Length: 1
      *
@@ -66,21 +68,21 @@ class Shipment
     public ?int $transportType = null;
 
     /**
-     * Mandatory.
+     * Mandatory
      *
      * @var Party
      */
     public Party $shipper;
 
     /**
-     * Mandatory.
+     * Mandatory
      *
      * @var Party
      */
     public Party $cosignee;
 
     /**
-     * Conditional: Based on PaymentType = "3".
+     * Conditional: Based on payment type = "3".
      *
      * @var Party
      */
@@ -151,7 +153,7 @@ class Shipment
     public ShipmentDetails $details;
 
     /**
-     * The total size of a single file must not exceed 2 MB.
+     * The total size of a single file must not exceed 2MB.
      *
      * Mandatory
      *
@@ -160,9 +162,8 @@ class Shipment
     public array $attachments = [];
 
     /**
-     * To add Shipments to existing pickups.
-     *
-     * A valid GUID value, provided by the Pickup Creation Response
+     * To add shipments to existing pickups, a valid GUID value,
+     * provided by the pickup creation response must be used.
      *
      * Mandatory
      *
@@ -194,92 +195,10 @@ class Shipment
         $this->cosignee = new Party();
         $this->thirdParty = new Party();
         $this->details = new ShipmentDetails();
-
-        $this->shipper->accountNumber = 'production' === config('aramex.mode') ? config('aramex.ClientInfo.production.AccountNumber') : config('aramex.ClientInfo.test.AccountNumber');
-
-        $this->shipper->partyAddress->line1 = 'production' === config('aramex.mode') ? config('aramex.Address') : config('aramex.Address');
-
-        $this->shipper->partyAddress->city = 'production' === config('aramex.mode') ? config('aramex.ClientInfo.production.AccountEntity') : config('aramex.ClientInfo.test.AccountEntity');
-
-        $this->shipper->partyAddress->countryCode = 'production' === config('aramex.mode') ? config('aramex.ClientInfo.production.AccountCountryCode') : config('aramex.ClientInfo.test.AccountCountryCode');
-
-        $this->shipper->partyAddress->postCode = 'production' === config('aramex.mode') ? config('aramex.ClientInfo.production.PostCode') : config('aramex.ClientInfo.test.PostCode');
     }
 
     /**
-     * Set shipper.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Party|null $party
-     *
-     * @return \Moharrum\AramexPHP\Entities\Shipment
-     */
-    public function shipper(?Party $party = null): self
-    {
-        if (!$party) {
-            return $this->shipper;
-        }
-
-        $this->shipper = $party;
-
-        return $this;
-    }
-
-    /**
-     * Set cosignee.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Party|null $party
-     *
-     * @return \Moharrum\AramexPHP\Entities\Shipment
-     */
-    public function cosignee(?Party $party = null): self
-    {
-        if (!$party) {
-            return $this->cosignee;
-        }
-
-        $this->cosignee = $party;
-
-        return $this;
-    }
-
-    /**
-     * Set third party.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Party|null $party
-     *
-     * @return \Moharrum\AramexPHP\Entities\Shipment
-     */
-    public function thirdParty(?Party $party = null): self
-    {
-        if (!$party) {
-            return $this->thirdParty;
-        }
-
-        $this->thirdParty = $party;
-
-        return $this;
-    }
-
-    /**
-     * Set shipment details.
-     *
-     * @param \Moharrum\AramexPHP\Entities\ShipmentDetails|null $details
-     *
-     * @return \Moharrum\AramexPHP\Entities\Shipment
-     */
-    public function details(?ShipmentDetails $details = null): self
-    {
-        if (!$details) {
-            return $this->details;
-        }
-
-        $this->details = $details;
-
-        return $this;
-    }
-
-    /**
-     * Attach an attachment.
+     * Add an attachment.
      *
      * @param \Moharrum\AramexPHP\Entities\Attachment $attachment
      *
@@ -293,11 +212,9 @@ class Shipment
     }
 
     /**
-     * Returns an array representation of the model.
-     *
-     * @return array
+     * @inheritdoc
      */
-    public function toArray(): array
+    public function build(): array
     {
         $attachments = [];
 
@@ -325,15 +242,5 @@ class Shipment
             'PickupGUID' => $this->pickupGUID,
             'Number' => $this->number,
         ];
-    }
-
-    /**
-     * Returns a JSON representation of the model.
-     *
-     * @return string
-     */
-    public function toJson(int $flags = 0, int $depth = 512): string
-    {
-        return json_encode($this->toArray(), $flags, $depth);
     }
 }

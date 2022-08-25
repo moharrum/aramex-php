@@ -2,12 +2,12 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-class ShipmentDetails
+use Moharrum\AramexPHP\Entities\AbstractEntity;
+
+class ShipmentDetails extends AbstractEntity
 {
     /**
-     * Measurements required in calculating the
-     * Chargeable Weight, If any of the dimensional
-     * values are filled then the rest must be filled.
+     * Measurements required in calculating the chargeable weight.
      *
      * Optional
      *
@@ -24,12 +24,12 @@ class ShipmentDetails
      *
      * Pieces > 0, MAX = 100
      *
-     * @var int|null
+     * @var int
      */
-    public ?int $numberOfPieces = null;
+    public int $numberOfPieces = 0;
 
     /**
-     * Total actual shipment weight. If the Dimensions are filled,
+     * Total actual shipment weight. If the dimensions are filled,
      * charging weight is compared to actual and the highest value is filled here.
      *
      * Mandatory
@@ -42,7 +42,7 @@ class ShipmentDetails
 
     /**
      * EXP = Express
-     * DOM = Domestic.
+     * DOM = Domestic
      *
      * Mandatory
      *
@@ -82,21 +82,21 @@ class ShipmentDetails
     public ?string $paymentType = null;
 
     /**
-     * Conditional - Based on the Payment Type "C":
-     * ASCC = Needs Shipper Account Number to be filled.
-     * ARCC = Needs Consignee Account Number to be filled.
-     *
-     * Optional - Based on the Payment Type "P" then it is optional to fill.
-     * CASH = Cash
-     * ACCT = Account
-     * PPST = Prepaid Stock
-     * CRDT = Credit
+     * Method of payment for shipment.
      *
      * P = Prepaid
      * C = Collect
      * 3 = Third Party
      *
-     * Conditional
+     * Conditional: Based on the payment type "C":
+     *     ASCC = Needs shipper account number to be filled
+     *     ARCC = Needs consignee account number to be filled
+     *
+     * Optional: Based on the payment type "P" then it is optional to fill.
+     *     CASH = Cash
+     *     ACCT = Account
+     *     PPST = Prepaid Stock
+     *     CRDT = Credit
      *
      * Length: 4
      *
@@ -117,7 +117,8 @@ class ShipmentDetails
     public ?string $services = null;
 
     /**
-     * The nature of shipment contents. Example: Clothes, Electronic Gadgets .....
+     * The nature of shipment contents.
+     * Example: Clothes, Electronic Gadgets...
      *
      * Mandatory
      *
@@ -139,19 +140,18 @@ class ShipmentDetails
     public ?string $goodsOriginCountry = null;
 
     /**
-     * Value charged by destination customs. Conditional - Based on the ProductType "Dutible".
+     * Value charged by destination customs.
      *
-     * Conditional
+     * Conditional: Based on the product type "Dutible".
      *
      * @var \Moharrum\AramexPHP\Entities\Money
      */
     public Money $customsValueAmount;
 
     /**
-     * Amount of Cash that is paid by the receiver of the package.
-     * Based on the Services "COD" being filled.
+     * Amount of cash that is paid by the receiver of the package.
      *
-     * Conditional
+     * Conditional: Based on the services "COD" being filled.
      *
      * @var \Moharrum\AramexPHP\Entities\Money
      */
@@ -167,7 +167,7 @@ class ShipmentDetails
     public Money $insuranceAmount;
 
     /**
-     * Additional Cash that can be required for miscellaneous purposes.
+     * Additional cash that can be required for miscellaneous purposes.
      *
      * Optional
      *
@@ -176,9 +176,7 @@ class ShipmentDetails
     public Money $cashAdditionalAmount;
 
     /**
-     * Based on the PaymentType "3" AND Cash Additional Amount is filled.
-     *
-     * Conditional
+     * Conditional: Based on the payment type "3" & cash additional amount is filled.
      *
      * @var string|null
      */
@@ -186,9 +184,8 @@ class ShipmentDetails
 
     /**
      * Transportation Charges to be collected from consignee.
-     * Based on the PaymentType "C" + PaymentOptions "ARCC".
      *
-     * Conditional
+     * Conditional: Based on the payment type "C" + payment options "ARCC".
      *
      * @var \Moharrum\AramexPHP\Entities\Money
      */
@@ -221,133 +218,7 @@ class ShipmentDetails
     }
 
     /**
-     * Set item dimensions.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Dimensions|null $dimensions
-     *
-     * @return \Moharrum\AramexPHP\Entities\ShipmentDetails
-     */
-    public function dimensions(?Dimensions $dimensions = null): self
-    {
-        if (!$dimensions) {
-            return $this->dimensions;
-        }
-
-        $this->dimensions = $dimensions;
-
-        return $this;
-    }
-
-    /**
-     * Set item actual weight.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Weight|null $weight
-     *
-     * @return \Moharrum\AramexPHP\Entities\ShipmentDetails
-     */
-    public function actualWeight(?Weight $weight = null): self
-    {
-        if (!$weight) {
-            return $this->actualWeight;
-        }
-
-        $this->actualWeight = $weight;
-
-        return $this;
-    }
-
-    /**
-     * Set item customs value amount.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Money|null $amount
-     *
-     * @return \Moharrum\AramexPHP\Entities\ShipmentDetails
-     */
-    public function customsValueAmount(?Money $amount = null): self
-    {
-        if (!$amount) {
-            return $this->customsValueAmount;
-        }
-
-        $this->customsValueAmount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Set item cash on delivery amount.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Money|null $amount
-     *
-     * @return \Moharrum\AramexPHP\Entities\ShipmentDetails
-     */
-    public function cashOnDeliveryAmount(?Money $amount = null): self
-    {
-        if (!$amount) {
-            return $this->cashOnDeliveryAmount;
-        }
-
-        $this->cashOnDeliveryAmount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Set item insurance amount.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Money|null $amount
-     *
-     * @return \Moharrum\AramexPHP\Entities\ShipmentDetails
-     */
-    public function insuranceAmount(?Money $amount = null): self
-    {
-        if (!$amount) {
-            return $this->insuranceAmount;
-        }
-
-        $this->insuranceAmount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Set item cash additional amount.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Money|null $amount
-     *
-     * @return \Moharrum\AramexPHP\Entities\ShipmentDetails
-     */
-    public function cashAdditionalAmount(?Money $amount = null): self
-    {
-        if (!$amount) {
-            return $this->cashAdditionalAmount;
-        }
-
-        $this->cashAdditionalAmount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Set item collect amount.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Money|null $amount
-     *
-     * @return \Moharrum\AramexPHP\Entities\ShipmentDetails
-     */
-    public function collectAmount(?Money $amount = null): self
-    {
-        if (!$amount) {
-            return $this->collectAmount;
-        }
-
-        $this->collectAmount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Add items to shipment items.
+     * Add an item to shipment items.
      *
      * @param \Moharrum\AramexPHP\Entities\ShipmentItem $item
      *
@@ -361,46 +232,34 @@ class ShipmentDetails
     }
 
     /**
-     * Returns an array representation of the model.
-     *
-     * @return array
+     * @inheritdoc
      */
-    public function toArray(): array
+    public function build(): array
     {
         $shipmentItems = [];
 
         foreach ($this->items as $item) {
-            array_push($shipmentItems, $item->toArray());
+            array_push($shipmentItems, $item->build());
         }
 
         return [
-            'Dimensions' => $this->dimensions->toArray(),
-            'ActualWeight' => $this->actualWeight->toArray(),
+            'Dimensions' => $this->dimensions->build(),
+            'ActualWeight' => $this->actualWeight->build(),
             'DescriptionOfGoods' => $this->descriptionOfGoods,
             'GoodsOriginCountry' => $this->goodsOriginCountry,
             'NumberOfPieces' => $this->numberOfPieces,
-            'ProductGroup' => $this->productGroup ?? config('aramex.ProductGroup'),
-            'ProductType' => $this->productType ?? config('aramex.ProductType'),
-            'PaymentType' => $this->paymentType ?? config('aramex.Payment'),
-            'PaymentOptions' => $this->paymentOptions ?? config('aramex.PaymentOptions'),
-            'CustomsValueAmount' => $this->customsValueAmount->toArray(),
-            'CashOnDeliveryAmount' => $this->cashOnDeliveryAmount->toArray(),
-            'InsuranceAmount' => $this->insuranceAmount->toArray(),
-            'CashAdditionalAmount' => $this->cashAdditionalAmount->toArray(),
+            'ProductGroup' => $this->productGroup,
+            'ProductType' => $this->productType,
+            'PaymentType' => $this->paymentType,
+            'PaymentOptions' => $this->paymentOptions,
+            'CustomsValueAmount' => $this->customsValueAmount->build(),
+            'CashOnDeliveryAmount' => $this->cashOnDeliveryAmount->build(),
+            'InsuranceAmount' => $this->insuranceAmount->build(),
+            'CashAdditionalAmount' => $this->cashAdditionalAmount->build(),
             'CashAdditionalAmountDescription' => $this->cashAdditionalAmountDescription,
-            'CollectAmount' => $this->collectAmount->toArray(),
-            'Services' => $this->services ?? config('aramex.Services'),
+            'CollectAmount' => $this->collectAmount->build(),
+            'Services' => $this->services,
             'Items' => $shipmentItems,
         ];
-    }
-
-    /**
-     * Returns a JSON representation of the model.
-     *
-     * @return string
-     */
-    public function toJson(int $flags = 0, int $depth = 512): string
-    {
-        return json_encode($this->toArray(), $flags, $depth);
     }
 }

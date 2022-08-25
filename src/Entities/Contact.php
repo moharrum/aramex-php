@@ -2,9 +2,9 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-use Moharrum\AramexPHP\Contracts\EntityContract;
+use Moharrum\AramexPHP\Entities\AbstractEntity;
 
-class Contact implements EntityContract
+class Contact extends AbstractEntity
 {
     /**
      * User's work department.
@@ -15,7 +15,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $department = null;
+    public ?string $department = null;
 
     /**
      * User's name, Sent By or in the case of
@@ -27,7 +27,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $personName = null;
+    public ?string $personName = null;
 
     /**
      * User's title.
@@ -38,7 +38,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $title = null;
+    public ?string $title = null;
 
     /**
      * Company or person name.
@@ -49,7 +49,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $companyName = null;
+    public ?string $companyName = null;
 
     /**
      * Valid phone number.
@@ -60,7 +60,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $phoneNumber1 = null;
+    public ?string $phoneNumber1 = null;
 
     /**
      * Valid extension to the phone number.
@@ -71,7 +71,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $phoneNumber1Ext = null;
+    public ?string $phoneNumber1Ext = null;
 
     /**
      * Phone number.
@@ -82,7 +82,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $phoneNumber2 = null;
+    public ?string $phoneNumber2 = null;
 
     /**
      * Extension to the phone number.
@@ -93,7 +93,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $phoneNumber2Ext = null;
+    public ?string $phoneNumber2Ext = null;
 
     /**
      * Fax number.
@@ -104,7 +104,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $faxNumber = null;
+    public ?string $faxNumber = null;
 
     /**
      * Cell phone number.
@@ -115,7 +115,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $cellPhone = null;
+    public ?string $cellPhone = null;
 
     /**
      * Email address.
@@ -126,7 +126,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $emailAddress = null;
+    public ?string $emailAddress = null;
 
     /**
      * Mandatory.
@@ -135,32 +135,7 @@ class Contact implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $type = null;
-
-    /**
-     * Create a new instance of Contact.
-     *
-     * @param array|null $contact
-     *
-     * @return void
-     */
-    public function __construct(?array $contact)
-    {
-        if (is_array($contact)) {
-            $this->department = $contact['department'];
-            $this->personName = $contact['personName'];
-            $this->title = $contact['title'];
-            $this->companyName = $contact['companyName'];
-            $this->phoneNumber1 = $contact['phoneNumber1'];
-            $this->phoneNumber1Ext = $contact['phoneNumber1Ext'];
-            $this->phoneNumber2 = $contact['phoneNumber2'];
-            $this->phoneNumber2Ext = $contact['phoneNumber2Ext'];
-            $this->faxNumber = $contact['faxNumber'];
-            $this->cellPhone = $contact['cellPhone'];
-            $this->emailAddress = $contact['emailAddress'];
-            $this->type = $contact['type'];
-        }
-    }
+    public ?string $type = null;
 
     /**
      * @inheritdoc
@@ -181,293 +156,5 @@ class Contact implements EntityContract
             'EmailAddress' => $this->emailAddress,
             'Type' => $this->type,
         ];
-    }
-
-    /**
-     * Set department.
-     *
-     * @param string|null $department
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setDepartment(?string $department): self
-    {
-        $this->department = $department;
-
-        return $this;
-    }
-
-    /**
-     * Get department.
-     *
-     * @return string|null
-     */
-    public function getDepartment(): ?string
-    {
-        return $this->department;
-    }
-
-    /**
-     * Set person name.
-     *
-     * @param string|null $personName
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setPersonName(?string $personName): self
-    {
-        $this->personName = $personName;
-
-        return $this;
-    }
-
-    /**
-     * Get person name.
-     *
-     * @return string|null
-     */
-    public function getPersonName(): ?string
-    {
-        return $this->personName;
-    }
-
-    /**
-     * Set title.
-     *
-     * @param string|null $title
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title.
-     *
-     * @return string|null
-     */
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set company name.
-     *
-     * @param string|null $companyName
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setCompanyName(?string $companyName): self
-    {
-        $this->companyName = $companyName;
-
-        return $this;
-    }
-
-    /**
-     * Get company name.
-     *
-     * @return string|null
-     */
-    public function getCompanyName(): ?string
-    {
-        return $this->companyName;
-    }
-
-    /**
-     * Set phone number 1.
-     *
-     * @param string|null $phoneNumber1
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setPhoneNumber1(?string $phoneNumber1): self
-    {
-        $this->phoneNumber1 = $phoneNumber1;
-
-        return $this;
-    }
-
-    /**
-     * Get phone number 1.
-     *
-     * @return string|null
-     */
-    public function getPhoneNumber1(): ?string
-    {
-        return $this->phoneNumber1;
-    }
-
-    /**
-     * Set phone number 1 extension.
-     *
-     * @param string|null $phoneNumber1Ext
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setPhoneNumber1Ext(?string $phoneNumber1Ext): self
-    {
-        $this->phoneNumber1Ext = $phoneNumber1Ext;
-
-        return $this;
-    }
-
-    /**
-     * Get phone number 1 extension.
-     *
-     * @return string|null
-     */
-    public function getPhoneNumber1Ext(): ?string
-    {
-        return $this->phoneNumber1Ext;
-    }
-
-    /**
-     * Set phone number 2.
-     *
-     * @param string|null $phoneNumber2
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setPhoneNumber2(?string $phoneNumber2): self
-    {
-        $this->phoneNumber2 = $phoneNumber2;
-
-        return $this;
-    }
-
-    /**
-     * Get phone number 2.
-     *
-     * @return string|null
-     */
-    public function getPhoneNumber2(): ?string
-    {
-        return $this->phoneNumber2;
-    }
-
-    /**
-     * Set phone number 2 extension.
-     *
-     * @param string|null $phoneNumber2Ext
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setPhoneNumber2Ext(?string $phoneNumber2Ext): self
-    {
-        $this->phoneNumber2Ext = $phoneNumber2Ext;
-
-        return $this;
-    }
-
-    /**
-     * Get phone number 2 extension.
-     *
-     * @return string|null
-     */
-    public function getPhoneNumber2Ext(): ?string
-    {
-        return $this->phoneNumber2Ext;
-    }
-
-    /**
-     * Set fax number.
-     *
-     * @param string|null $faxNumber
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setFaxNumber(?string $faxNumber): self
-    {
-        $this->faxNumber = $faxNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get fax number.
-     *
-     * @return string|null
-     */
-    public function getFaxNumber(): ?string
-    {
-        return $this->faxNumber;
-    }
-
-    /**
-     * Set cell phone.
-     *
-     * @param string|null $cellPhone
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setCellPhone(?string $cellPhone): self
-    {
-        $this->cellPhone = $cellPhone;
-
-        return $this;
-    }
-
-    /**
-     * Get cell phone.
-     *
-     * @return string|null
-     */
-    public function getCellPhone(): ?string
-    {
-        return $this->cellPhone;
-    }
-
-    /**
-     * Set email address.
-     *
-     * @param string|null $emailAddress
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setEmailAddress(?string $emailAddress): self
-    {
-        $this->emailAddress = $emailAddress;
-
-        return $this;
-    }
-
-    /**
-     * Get email address.
-     *
-     * @return string|null
-     */
-    public function getEmailAddress(): ?string
-    {
-        return $this->emailAddress;
-    }
-
-    /**
-     * Set type.
-     *
-     * @param string|null $type
-     *
-     * @return \Moharrum\AramexPHP\Entities\Contact
-     */
-    public function setType(?string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type.
-     *
-     * @return string|null
-     */
-    public function getType(): ?string
-    {
-        return $this->type;
     }
 }

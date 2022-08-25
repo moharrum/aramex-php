@@ -4,59 +4,29 @@ namespace Moharrum\AramexPHP\Services;
 
 use Moharrum\AramexPHP\Requests\PickupCreationRequest;
 use Moharrum\AramexPHP\Responses\PickupCreationResponse;
-use SoapClient;
-use stdClass;
 
-class PickupService
+class PickupService extends AbstractService
 {
+    /** @var string */
+    protected $wsdl = 'shipping-services-api-wsdl.wsdl';
+
     /**
      * Create pickup.
      *
      * @param \Moharrum\AramexPHP\Requests\PickupCreationRequest $request
      *
      * @return \Moharrum\AramexPHP\Responses\PickupCreationResponse
+     *
+     * @throws SoapFault
      */
     public function createPickup(PickupCreationRequest $request): PickupCreationResponse
     {
-        $soapClient = $this->getSoapClient();
+        $soapClient = $this->getSoapClient($this->wsdl);
 
-        $soapResponse = $soapClient->CreatePickup($request->toArray());
+        $soapResponse = $soapClient->CreatePickup($request->build());
 
         $createPickupResponse = new PickupCreationResponse($soapResponse);
 
         return $createPickupResponse;
-    }
-
-    /**
-     * Build Soap client depending on app mode.
-     *
-     * @return SoapClient
-     */
-    protected function getSoapClient(): SoapClient
-    {
-        $testPath = module_path('aramex')
-                    . DIRECTORY_SEPARATOR
-                    . 'Data'
-                    . DIRECTORY_SEPARATOR
-                    . 'test'
-                    . DIRECTORY_SEPARATOR
-                    . 'shipping.xml';
-
-        $productionPath = module_path('aramex')
-                    . DIRECTORY_SEPARATOR
-                    . 'Data'
-                    . DIRECTORY_SEPARATOR
-                    . 'production'
-                    . DIRECTORY_SEPARATOR
-                    . 'shipping-services-api-wsdl.wsdl';
-
-        $path = 'production' === config('aramex.mode') ? $productionPath : $testPath;
-
-        return new SoapClient(
-            $path,
-            [
-                'trace' => 1,
-            ]
-        );
     }
 }

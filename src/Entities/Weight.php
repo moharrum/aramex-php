@@ -2,12 +2,14 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-class Weight
+use Moharrum\AramexPHP\Entities\AbstractEntity;
+
+class Weight extends AbstractEntity
 {
     /**
      * Shipment weight.
      *
-     * If the Data Entity 'Dimensions' are filled, charging weight
+     * If the data entity 'Dimensions' are filled, charging weight
      * is compared to actual and the highest value is filled here.
      *
      * Mandatory
@@ -22,7 +24,6 @@ class Weight
 
     /**
      * Unit of the weight.
-     *
      * Depends on your account preferences: My Account > My Profile > Shipping Preferences.
      *
      * Optional
@@ -32,40 +33,18 @@ class Weight
      * KG = Kilogram
      * LB = Pounds
      *
-     * @var string
+     * @var string|null
      */
-    public string $unit;
+    public ?string $unit = null;
 
     /**
-     * Create a new instance of Weight.
-     *
-     * @return void
+     * @inheritdoc
      */
-    public function __construct()
-    {
-        $this->unit = config('aramex.WeightUnit');
-    }
-
-    /**
-     * Returns an array representation of the model.
-     *
-     * @return array
-     */
-    public function toArray(): array
+    public function build(): array
     {
         return [
             'Value' => $this->value,
             'Unit' => $this->unit,
         ];
-    }
-
-    /**
-     * Returns a JSON representation of the model.
-     *
-     * @return string
-     */
-    public function toJson(int $flags = 0, int $depth = 512): string
-    {
-        return json_encode($this->toArray(), $flags, $depth);
     }
 }

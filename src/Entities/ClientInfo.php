@@ -2,9 +2,9 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-use Moharrum\AramexPHP\Contracts\EntityContract;
+use Moharrum\AramexPHP\Entities\AbstractEntity;
 
-class ClientInfo implements EntityContract
+class ClientInfo extends AbstractEntity
 {
     /**
      * A unique user name sent to the user upon registration.
@@ -15,7 +15,7 @@ class ClientInfo implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $userName = null;
+    public ?string $userName = null;
 
     /**
      * A unique password to verify the user name,
@@ -27,7 +27,7 @@ class ClientInfo implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $password = null;
+    public ?string $password = null;
 
     /**
      * Based on the WSDL version the user is using to
@@ -39,7 +39,7 @@ class ClientInfo implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $version = null;
+    public ?string $version = null;
 
     /**
      * Identification code for transmitting party.
@@ -50,7 +50,7 @@ class ClientInfo implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $accountEntity = null;
+    public ?string $accountEntity = null;
 
     /**
      * The customer's account number.
@@ -61,7 +61,7 @@ class ClientInfo implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $accountNumber = null;
+    public ?string $accountNumber = null;
 
     /**
      * A key that is associated with the account number,
@@ -73,7 +73,7 @@ class ClientInfo implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $accountPin = null;
+    public ?string $accountPin = null;
 
     /**
      * Two letter code identifying the country.
@@ -84,7 +84,7 @@ class ClientInfo implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $accountCountryCode = null;
+    public ?string $accountCountryCode = null;
 
     /**
      * This field may be customized for data mining purposes.
@@ -95,28 +95,7 @@ class ClientInfo implements EntityContract
      *
      * @var int|null
      */
-    protected ?int $source = null;
-
-    /**
-     * Create a new instance of Client Info.
-     *
-     * @param array|null $clientInfo
-     *
-     * @return void
-     */
-    public function __construct(?array $clientInfo)
-    {
-        if (is_array($clientInfo)) {
-            $this->userName = $clientInfo['userName'];
-            $this->password = $clientInfo['password'];
-            $this->version = $clientInfo['version'];
-            $this->accountEntity = $clientInfo['accountEntity'];
-            $this->accountNumber = $clientInfo['accountNumber'];
-            $this->accountPin = $clientInfo['accountPin'];
-            $this->accountCountryCode = $clientInfo['accountCountryCode'];
-            $this->source = $clientInfo['source'];
-        }
-    }
+    public ?int $source = null;
 
     /**
      * @inheritdoc
@@ -133,197 +112,5 @@ class ClientInfo implements EntityContract
             'Version' => $this->version,
             'Source' => $this->source,
         ];
-    }
-
-    /**
-     * Set user name.
-     *
-     * @param string|null $userName
-     *
-     * @return \Moharrum\AramexPHP\Entities\ClientInfo
-     */
-    public function setUsername(?string $userName): self
-    {
-        $this->userName = $userName;
-
-        return $this;
-    }
-
-    /**
-     * Get user name.
-     *
-     * @return string|null
-     */
-    public function getUsername(): ?string
-    {
-        return $this->userName;
-    }
-
-    /**
-     * Set password.
-     *
-     * @param string|null $password
-     *
-     * @return \Moharrum\AramexPHP\Entities\ClientInfo
-     */
-    public function setPassword(?string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password.
-     *
-     * @return string|null
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set version.
-     *
-     * @param string|null $version
-     *
-     * @return \Moharrum\AramexPHP\Entities\ClientInfo
-     */
-    public function setVersion(?string $version): self
-    {
-        $this->version = $version;
-
-        return $this;
-    }
-
-    /**
-     * Get version.
-     *
-     * @return string|null
-     */
-    public function getVersion(): ?string
-    {
-        return $this->version;
-    }
-
-    /**
-     * Set account entity.
-     *
-     * @param string|null $accountEntity
-     *
-     * @return \Moharrum\AramexPHP\Entities\ClientInfo
-     */
-    public function setAccountEntity(?string $accountEntity): self
-    {
-        $this->accountEntity = $accountEntity;
-
-        return $this;
-    }
-
-    /**
-     * Get account entity.
-     *
-     * @return string|null
-     */
-    public function getAccountEntity(): ?string
-    {
-        return $this->accountEntity;
-    }
-
-    /**
-     * Set account number.
-     *
-     * @param string|null $accountNumber
-     *
-     * @return \Moharrum\AramexPHP\Entities\ClientInfo
-     */
-    public function setAccountNumber(?string $accountNumber): self
-    {
-        $this->accountNumber = $accountNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get account number.
-     *
-     * @return string|null
-     */
-    public function getAccountNumber(): ?string
-    {
-        return $this->accountNumber;
-    }
-
-    /**
-     * Set account PIN.
-     *
-     * @param string|null $accountPin
-     *
-     * @return \Moharrum\AramexPHP\Entities\ClientInfo
-     */
-    public function setAccountPin(?string $accountPin): self
-    {
-        $this->accountPin = $accountPin;
-
-        return $this;
-    }
-
-    /**
-     * Get account PIN.
-     *
-     * @return string|null
-     */
-    public function getAccountPin(): ?string
-    {
-        return $this->accountPin;
-    }
-
-    /**
-     * Set account country code.
-     *
-     * @param string|null $accountCountryCode
-     *
-     * @return \Moharrum\AramexPHP\Entities\ClientInfo
-     */
-    public function setAccountCountryCode(?string $accountCountryCode): self
-    {
-        $this->accountCountryCode = $accountCountryCode;
-
-        return $this;
-    }
-
-    /**
-     * Get account country code.
-     *
-     * @return string|null
-     */
-    public function getAccountCountryCode(): ?string
-    {
-        return $this->accountCountryCode;
-    }
-
-    /**
-     * Set source.
-     *
-     * @param string|null $source
-     *
-     * @return \Moharrum\AramexPHP\Entities\ClientInfo
-     */
-    public function setSource(?string $source): self
-    {
-        $this->source = $source;
-
-        return $this;
-    }
-
-    /**
-     * Get source.
-     *
-     * @return string|null
-     */
-    public function getSource(): ?string
-    {
-        return $this->source;
     }
 }

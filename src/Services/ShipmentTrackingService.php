@@ -4,58 +4,29 @@ namespace Moharrum\AramexPHP\Services;
 
 use Moharrum\AramexPHP\Requests\ShipmentTrackingRequest;
 use Moharrum\AramexPHP\Responses\ShipmentTrackingResponse;
-use SoapClient;
 
-class ShipmentTrackingService
+class ShipmentTrackingService extends AbstractService
 {
+    /** @var string */
+    protected $wsdl = 'shipments-tracking-api-wsdl.wsdl';
+
     /**
      * Track existing shipments and obtain their updates and latest status.
      *
      * @param \Moharrum\AramexPHP\Requests\ShipmentTrackingRequest $request
      *
      * @return \Moharrum\AramexPHP\Responses\ShipmentTrackingResponse
+     *
+     * @throws SoapFault
      */
     public function track(ShipmentTrackingRequest $request): ShipmentTrackingResponse
     {
-        $soapClient = $this->getSoapClient();
+        $soapClient = $this->getSoapClient($this->wsdl);
 
-        $soapResponse = $soapClient->TrackShipments($request->toArray());
+        $soapResponse = $soapClient->TrackShipments($request->build());
 
         $trackResponse = new ShipmentTrackingResponse($soapResponse);
 
         return $trackResponse;
-    }
-
-    /**
-     * Build Soap client depending on app mode.
-     *
-     * @return SoapClient
-     */
-    protected function getSoapClient(): SoapClient
-    {
-        $testPath = module_path('aramex')
-                    . DIRECTORY_SEPARATOR
-                    . 'Data'
-                    . DIRECTORY_SEPARATOR
-                    . 'test'
-                    . DIRECTORY_SEPARATOR
-                    . 'tracking.xml';
-
-        $productionPath = module_path('aramex')
-                    . DIRECTORY_SEPARATOR
-                    . 'Data'
-                    . DIRECTORY_SEPARATOR
-                    . 'production'
-                    . DIRECTORY_SEPARATOR
-                    . 'shipments-tracking-api-wsdl.wsdl';
-
-        $path = 'production' === config('aramex.mode') ? $productionPath : $testPath;
-
-        return new SoapClient(
-            $path,
-            [
-                'trace' => 1,
-            ]
-        );
     }
 }

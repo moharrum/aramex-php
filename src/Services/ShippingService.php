@@ -6,23 +6,26 @@ use Moharrum\AramexPHP\Requests\LabelPrintingRequest;
 use Moharrum\AramexPHP\Requests\ShipmentCreationRequest;
 use Moharrum\AramexPHP\Responses\LabelPrintingResponse;
 use Moharrum\AramexPHP\Responses\ShipmentCreationResponse;
-use SoapClient;
-use stdClass;
 
-class ShippingService
+class ShippingService extends AbstractService
 {
+    /** @var string */
+    protected $wsdl = 'shipping-services-api-wsdl.wsdl';
+
     /**
      * Create shipment.
      *
-     * @param  \Moharrum\AramexPHP\Requests\ShipmentCreationRequest $request
+     * @param \Moharrum\AramexPHP\Requests\ShipmentCreationRequest $request
      *
      * @return \Moharrum\AramexPHP\Responses\ShipmentCreationResponse
+     *
+     * @throws SoapFault
      */
     public function createShipment(ShipmentCreationRequest $request): ShipmentCreationResponse
     {
-        $soapClient = $this->getSoapClient();
+        $soapClient = $this->getSoapClient($this->wsdl);
 
-        $soapResponse = $soapClient->CreateShipments($request->toArray());
+        $soapResponse = $soapClient->CreateShipments($request->build());
 
         $createShipmentResponse = new ShipmentCreationResponse($soapResponse);
 
@@ -32,51 +35,20 @@ class ShippingService
     /**
      * Print shipment label.
      *
-     * @param  \Moharrum\AramexPHP\Requests\LabelPrintingRequest $request
+     * @param \Moharrum\AramexPHP\Requests\LabelPrintingRequest $request
      *
      * @return \Moharrum\AramexPHP\Responses\LabelPrintingResponse
+     *
+     * @throws SoapFault
      */
     public function printLabel(LabelPrintingRequest $request): LabelPrintingResponse
     {
-        $soapClient = $this->getSoapClient();
+        $soapClient = $this->getSoapClient($this->wsdl);
 
-        $soapResponse = $soapClient->PrintLabel($request->toArray());
+        $soapResponse = $soapClient->PrintLabel($request->build());
 
         $labelPrintingResponse = new LabelPrintingResponse($soapResponse);
 
         return $labelPrintingResponse;
-    }
-
-    /**
-     * Build Soap client depending on app mode.
-     *
-     * @return SoapClient
-     */
-    protected function getSoapClient(): SoapClient
-    {
-        $testPath = module_path('aramex')
-                    . DIRECTORY_SEPARATOR
-                    . 'Data'
-                    . DIRECTORY_SEPARATOR
-                    . 'test'
-                    . DIRECTORY_SEPARATOR
-                    . 'shipping.xml';
-
-        $productionPath = module_path('aramex')
-                    . DIRECTORY_SEPARATOR
-                    . 'Data'
-                    . DIRECTORY_SEPARATOR
-                    . 'production'
-                    . DIRECTORY_SEPARATOR
-                    . 'shipping-services-api-wsdl.wsdl';
-
-        $path = 'production' === config('aramex.mode') ? $productionPath : $testPath;
-
-        return new SoapClient(
-            $path,
-            [
-                'trace' => 1,
-            ]
-        );
     }
 }

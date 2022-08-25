@@ -2,9 +2,9 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-use Moharrum\AramexPHP\Contracts\EntityContract;
+use Moharrum\AramexPHP\Entities\AbstractEntity;
 
-class Dimensions implements EntityContract
+class Dimensions extends AbstractEntity
 {
     /**
      * Measurements required in calculating the chargeable weight.
@@ -17,7 +17,7 @@ class Dimensions implements EntityContract
      *
      * @var float
      */
-    protected float $length = 0;
+    public float $length = 0;
 
     /**
      * Measurements required in calculating the chargeable weight.
@@ -30,7 +30,7 @@ class Dimensions implements EntityContract
      *
      * @var float
      */
-    protected float $width = 0;
+    public float $width = 0;
 
     /**
      * Measurements required in calculating the chargeable weight.
@@ -43,7 +43,7 @@ class Dimensions implements EntityContract
      *
      * @var float
      */
-    protected float $height = 0;
+    public float $height = 0;
 
     /**
      * Measurements required in calculating the chargeable weight.
@@ -57,24 +57,7 @@ class Dimensions implements EntityContract
      *
      * @var string|null
      */
-    protected ?string $unit = null;
-
-    /**
-     * Create a new instance of Dimensions.
-     *
-     * @param array|null $dimensions
-     *
-     * @return void
-     */
-    public function __construct(?array $dimensions)
-    {
-        if (is_array($dimensions)) {
-            $this->length = $dimensions['length'];
-            $this->width = $dimensions['width'];
-            $this->height = $dimensions['height'];
-            $this->unit = $dimensions['unit'];
-        }
-    }
+    public ?string $unit = null;
 
     /**
      * @inheritdoc
@@ -87,101 +70,5 @@ class Dimensions implements EntityContract
             'Height' => $this->height,
             'Unit' => $this->unit,
         ];
-    }
-
-    /**
-     * Set length.
-     *
-     * @param float $length
-     *
-     * @return \Moharrum\AramexPHP\Entities\Dimensions
-     */
-    public function setLength(float $length): self
-    {
-        $this->length = $length;
-
-        return $this;
-    }
-
-    /**
-     * Get length.
-     *
-     * @return float
-     */
-    public function getLength(): float
-    {
-        return $this->length;
-    }
-
-    /**
-     * Set width.
-     *
-     * @param float $width
-     *
-     * @return \Moharrum\AramexPHP\Entities\Dimensions
-     */
-    public function setWidth(float $width): self
-    {
-        $this->width = $width;
-
-        return $this;
-    }
-
-    /**
-     * Get width.
-     *
-     * @return float
-     */
-    public function getWidth(): float
-    {
-        return $this->width;
-    }
-
-    /**
-     * Set height.
-     *
-     * @param float $height
-     *
-     * @return \Moharrum\AramexPHP\Entities\Dimensions
-     */
-    public function setHeight(float $height): self
-    {
-        $this->height = $height;
-
-        return $this;
-    }
-
-    /**
-     * Get height.
-     *
-     * @return float
-     */
-    public function getHeight(): float
-    {
-        return $this->height;
-    }
-
-    /**
-     * Set unit.
-     *
-     * @param string|null $unit
-     *
-     * @return \Moharrum\AramexPHP\Entities\Dimensions
-     */
-    public function setUnit(?string $unit): self
-    {
-        $this->unit = $unit;
-
-        return $this;
-    }
-
-    /**
-     * Get unit.
-     *
-     * @return string|null
-     */
-    public function getUnit(): ?string
-    {
-        return $this->unit;
     }
 }

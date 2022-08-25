@@ -2,16 +2,13 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-/**
- * Pickup Item Detail.
- *
- * Required Elements – Product Group, Number of Shipments, Payment.
- */
-class PickupItemDetails
+use Moharrum\AramexPHP\Entities\AbstractEntity;
+
+class PickupItemDetails extends AbstractEntity
 {
     /**
      * EXP = Express
-     * DOM = Domestic.
+     * DOM = Domestic
      *
      * Mandatory
      *
@@ -22,7 +19,7 @@ class PickupItemDetails
     public ?string $productGroup = null;
 
     /**
-     * Product Type involves the specification of certain
+     * Product type involves the specification of certain
      * features concerning the delivery of the product
      * such as: Priority, Time Sensitivity, and whether
      * it is a Document or Non-Document.
@@ -64,7 +61,7 @@ class PickupItemDetails
     public ?int $numberOfPieces = null;
 
     /**
-     * Total actual shipment weight. If the Dimensions are filled,
+     * Total actual shipment weight. If the dimensions are filled,
      * charging weight is compared to actual and the highest value is filled here.
      *
      * Mandatory
@@ -89,7 +86,7 @@ class PickupItemDetails
     public ?int $numberOfShipments = null;
 
     /**
-     * Type of packaging, for example. Cans, bottles, degradable Plastic.
+     * Type of packaging, for example: cans, bottles, degradable plastic.
      *
      * Optional
      *
@@ -100,7 +97,7 @@ class PickupItemDetails
     public ?string $packageType = null;
 
     /**
-     * Volume of the Shipment.
+     * Volume of the shipment.
      *
      * Mandatory
      *
@@ -125,9 +122,7 @@ class PickupItemDetails
     public Money $extraCharges;
 
     /**
-     * Measurements required in calculating the
-     * Chargeable Weight, If any of the dimensional
-     * values are filled then the rest must be filled.
+     * Measurements required in calculating the chargeable weight.
      *
      * Optional
      *
@@ -136,7 +131,7 @@ class PickupItemDetails
     public Dimensions $shipmentDimensions;
 
     /**
-     * Any Comments on the Item being picked up.
+     * Any comments on the Item being picked up.
      *
      * Optional
      *
@@ -161,125 +156,23 @@ class PickupItemDetails
     }
 
     /**
-     * Set item shipment weight.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Weight|null $weight
-     *
-     * @return \Moharrum\AramexPHP\Entities\PickupItemDetails
+     * @inheritdoc
      */
-    public function shipmentWeight(?Weight $weight = null): self
-    {
-        if (!$weight) {
-            return $this->shipmentWeight;
-        }
-
-        $this->shipmentWeight = $weight;
-
-        return $this;
-    }
-
-    /**
-     * Set item shipment volume.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Volume|null $volume
-     *
-     * @return \Moharrum\AramexPHP\Entities\PickupItemDetails
-     */
-    public function shipmentVolume(?Volume $volume = null): self
-    {
-        if (!$volume) {
-            return $this->shipmentVolume;
-        }
-
-        $this->shipmentVolume = $volume;
-
-        return $this;
-    }
-
-    /**
-     * Set item cash amount.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Money|null $amount
-     *
-     * @return \Moharrum\AramexPHP\Entities\PickupItemDetails
-     */
-    public function cashAmount(?Money $amount = null): self
-    {
-        if (!$amount) {
-            return $this->cashAmount;
-        }
-
-        $this->cashAmount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Set item extra charges.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Money|null $amount
-     *
-     * @return \Moharrum\AramexPHP\Entities\PickupItemDetails
-     */
-    public function extraCharges(?Money $amount = null): self
-    {
-        if (!$amount) {
-            return $this->extraCharges;
-        }
-
-        $this->extraCharges = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Set item shipment dimensions.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Dimensions|null $dimensions
-     *
-     * @return \Moharrum\AramexPHP\Entities\PickupItemDetails
-     */
-    public function shipmentDimensions(?Dimensions $dimensions = null): self
-    {
-        if (!$dimensions) {
-            return $this->shipmentDimensions;
-        }
-
-        $this->shipmentDimensions = $dimensions;
-
-        return $this;
-    }
-
-    /**
-     * Returns an array representation of the model.
-     *
-     * @return array
-     */
-    public function toArray(): array
+    public function build(): array
     {
         return [
-            'ProductGroup' => $this->productGroup ?? config('aramex.ProductGroup'),
-            'ProductType' => $this->productType ?? config('aramex.ProductType'),
+            'ProductGroup' => $this->productGroup,
+            'ProductType' => $this->productType,
             'NumberOfShipments' => $this->numberOfShipments,
             'PackageType' => $this->packageType,
-            'Payment' => $this->payment ?? config('aramex.Payment'),
-            'ShipmentWeight' => $this->shipmentWeight->toArray(),
-            'ShipmentVolume' => $this->shipmentVolume->toArray(),
+            'Payment' => $this->payment,
+            'ShipmentWeight' => $this->shipmentWeight->build(),
+            'ShipmentVolume' => $this->shipmentVolume->build(),
             'NumberOfPieces' => $this->numberOfPieces,
-            'CashAmount' => $this->cashAmount->toArray(),
-            'ExtraCharges' => $this->extraCharges->toArray(),
-            'ShipmentDimensions' => $this->shipmentDimensions->toArray(),
+            'CashAmount' => $this->cashAmount->build(),
+            'ExtraCharges' => $this->extraCharges->build(),
+            'ShipmentDimensions' => $this->shipmentDimensions->build(),
             'Comments' => $this->comments,
         ];
-    }
-
-    /**
-     * Returns a JSON representation of the model.
-     *
-     * @return string
-     */
-    public function toJson(int $flags = 0, int $depth = 512): string
-    {
-        return json_encode($this->toArray(), $flags, $depth);
     }
 }

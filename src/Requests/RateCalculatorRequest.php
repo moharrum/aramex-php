@@ -3,35 +3,17 @@
 namespace Moharrum\AramexPHP\Requests;
 
 use Moharrum\AramexPHP\Entities\Address;
-use Moharrum\AramexPHP\Entities\ClientInfo;
 use Moharrum\AramexPHP\Entities\ShipmentDetails;
-use Moharrum\AramexPHP\Entities\Transaction;
 
-class RateCalculatorRequest
+class RateCalculatorRequest extends AbstractRequest
 {
-    /**
-     * @var \Moharrum\AramexPHP\Entities\ClientInfo
-     */
-    public ClientInfo $clientInfo;
-
-    /**
-     * @var \Moharrum\AramexPHP\Entities\Transaction
-     */
-    public Transaction $transaction;
-
-    /**
-     * @var \Moharrum\AramexPHP\Entities\Address
-     */
+    /** @var \Moharrum\AramexPHP\Entities\Address */
     public Address $originAddress;
 
-    /**
-     * @var \Moharrum\AramexPHP\Entities\Address
-     */
+    /** @var \Moharrum\AramexPHP\Entities\Address */
     public Address $destinationAddress;
 
-    /**
-     * @var \Moharrum\AramexPHP\Entities\ShipmentDetails
-     */
+    /** @var \Moharrum\AramexPHP\Entities\ShipmentDetails */
     public ShipmentDetails $shipmentDetails;
 
     /**
@@ -41,47 +23,11 @@ class RateCalculatorRequest
      */
     public function __construct()
     {
-        $this->clientInfo = new ClientInfo();
-        $this->transaction = new Transaction();
+        parent::__construct();
+
         $this->originAddress = new Address();
         $this->destinationAddress = new Address();
         $this->shipmentDetails = new ShipmentDetails();
-    }
-
-    /**
-     * Set request client info.
-     *
-     * @param \Moharrum\AramexPHP\Entities\ClientInfo|null $info
-     *
-     * @return \Moharrum\AramexPHP\Requests\RateCalculatorRequest
-     */
-    public function clientInfo(?ClientInfo $info = null): self
-    {
-        if (! $info) {
-            return $this->clientInfo;
-        }
-
-        $this->clientInfo = $info;
-
-        return $this;
-    }
-
-    /**
-     * Set request transaction.
-     *
-     * @param \Moharrum\AramexPHP\Entities\Transaction|null $transaction
-     *
-     * @return \Moharrum\AramexPHP\Requests\RateCalculatorRequest
-     */
-    public function transaction(?Transaction $transaction = null): self
-    {
-        if (! $transaction) {
-            return $this->transaction;
-        }
-
-        $this->transaction = $transaction;
-
-        return $this;
     }
 
     /**
@@ -93,7 +39,7 @@ class RateCalculatorRequest
      */
     public function originAddress(?Address $address = null): self
     {
-        if (! $address) {
+        if (!$address) {
             return $this->originAddress;
         }
 
@@ -111,7 +57,7 @@ class RateCalculatorRequest
      */
     public function destinationAddress(?Address $address = null): self
     {
-        if (! $address) {
+        if (!$address) {
             return $this->destinationAddress;
         }
 
@@ -129,7 +75,7 @@ class RateCalculatorRequest
      */
     public function shipmentDetails(?ShipmentDetails $details = null): self
     {
-        if (! $details) {
+        if (!$details) {
             return $this->shipmentDetails;
         }
 
@@ -139,28 +85,16 @@ class RateCalculatorRequest
     }
 
     /**
-     * Returns an array representation of the request.
-     *
-     * @return array
+     * @inheritdoc
      */
-    public function toArray(): array
+    public function build(): array
     {
         return [
-            'ClientInfo' => $this->clientInfo->toArray(),
-            'Transaction' => $this->transaction->toArray(),
-            'OriginAddress' => $this->originAddress->toArray(),
-            'DestinationAddress' => $this->destinationAddress->toArray(),
-            'ShipmentDetails' => $this->shipmentDetails->toArray(),
+            'ClientInfo' => $this->clientInfo->build(),
+            'Transaction' => $this->transaction->build(),
+            'OriginAddress' => $this->originAddress->build(),
+            'DestinationAddress' => $this->destinationAddress->build(),
+            'ShipmentDetails' => $this->shipmentDetails->build(),
         ];
-    }
-
-    /**
-     * Returns a JSON representation of the request.
-     *
-     * @return string
-     */
-    public function toJson(int $flags = 0, int $depth = 512): string
-    {
-        return json_encode($this->toArray(), $flags, $depth);
     }
 }

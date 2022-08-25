@@ -2,10 +2,12 @@
 
 namespace Moharrum\AramexPHP\Entities;
 
-class Volume
+use Moharrum\AramexPHP\Entities\AbstractEntity;
+
+class Volume extends AbstractEntity
 {
     /**
-     * Shipment Volume.
+     * Shipment volume.
      *
      * Mandatory
      *
@@ -27,40 +29,18 @@ class Volume
      * KG = Kilogram
      * LB = Pounds
      *
-     * @var string
+     * @var string|null
      */
-    public string $unit;
+    public ?string $unit = null;
 
     /**
-     * Create a new instance of Volume.
-     *
-     * @return void
+     * @inheritdoc
      */
-    public function __construct()
-    {
-        $this->unit = config('aramex.VolumeUnit');
-    }
-
-    /**
-     * Returns an array representation of the model.
-     *
-     * @return array
-     */
-    public function toArray(): array
+    public function build(): array
     {
         return [
             'Value' => $this->value,
             'Unit' => $this->unit,
         ];
-    }
-
-    /**
-     * Returns a JSON representation of the model.
-     *
-     * @return string
-     */
-    public function toJson(int $flags = 0, int $depth = 512): string
-    {
-        return json_encode($this->toArray(), $flags, $depth);
     }
 }
