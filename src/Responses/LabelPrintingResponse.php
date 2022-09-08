@@ -6,9 +6,7 @@ use stdClass;
 
 class LabelPrintingResponse
 {
-    /**
-     * @var stdClass
-     */
+    /** @var stdClass */
     protected stdClass $raw;
 
     /**
@@ -26,14 +24,10 @@ class LabelPrintingResponse
      */
     protected bool $hasErrors = false;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected string $shipmentNumber = '';
 
-    /**
-     * @var null|\Moharrum\AramexPHP\Responses\ShipmentLabel
-     */
+    /** @var null|\Moharrum\AramexPHP\Responses\ShipmentLabel */
     protected ?ShipmentLabel $shipmentLabel = null;
 
     /**
